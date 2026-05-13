@@ -10,17 +10,17 @@
     <link rel="stylesheet" href="css/about.css">
     <style>
         .url-card {
-            background: var(--coffeelab-cream);
-            border-left: 4px solid var(--coffeelab-green);
+            background: var(--starbucks-cream);
+            border-left: 4px solid var(--starbucks-green);
             padding: 1.25rem 1.5rem;
             border-radius: 12px;
             margin-bottom: 1rem;
         }
-        .url-card h4 { margin: 0 0 0.5rem 0; color: var(--coffeelab-green-dark); }
-        .url-card a { color: var(--coffeelab-green); font-family: 'Courier New', monospace; word-break: break-all; }
+        .url-card h4 { margin: 0 0 0.5rem 0; color: var(--starbucks-green-dark); }
+        .url-card a { color: var(--starbucks-green); font-family: 'Courier New', monospace; word-break: break-all; }
         .placeholder { color: var(--text-secondary); font-style: italic; }
         .deeper {
-            background: linear-gradient(135deg, var(--coffeelab-green-dark), var(--coffeelab-green));
+            background: linear-gradient(135deg, var(--starbucks-green-dark), var(--starbucks-green));
             color: #ffffff !important;
             padding: 2rem;
             border-radius: 16px;
@@ -35,10 +35,11 @@
             padding: 2px 6px;
             border-radius: 4px;
         }
-        .deeper h3 { color: var(--coffeelab-gold) !important; }
+        .deeper h3 { color: var(--starbucks-gold) !important; }
     </style>
 </head>
 <body>
+    <!-- Header -->
     <header class="header">
         <div class="container">
             <nav class="navbar navbar-expand-lg">
@@ -62,6 +63,7 @@
         </div>
     </header>
 
+    <!-- Main Content -->
     <main class="main-content">
         <div class="container">
 
@@ -72,28 +74,33 @@
 
             <section class="about-section">
 
+                <!-- 1. How to run it -->
                 <h2>1. How to run it</h2>
                 <p>This project runs locally with <strong>Live Server</strong> in VS Code. Just open <code>index.html</code> with Live Server (or run <code>python -m http.server</code>). Three.js loads from CDN, all assets are relative paths, and JSON data is fetched at runtime. No build steps needed.</p>
 
+                <!-- 2. ITS Web Server URL -->
                 <h2 style="margin-top: 2rem;">2. ITS Web Server URL</h2>
                 <div class="url-card">
                     <h4>Live site on University of Sussex IT Services</h4>
-                    <p><a href="#" id="its-url" class="placeholder">[Put your live URL here, like https://users.sussex.ac.uk/~yourId/coffeelab-3d-app/]</a></p>
+                    <p><a href="https://users.sussex.ac.uk/~or89/coffeelab-3d-experience/" id="its-url" target="_blank" rel="noopener">https://users.sussex.ac.uk/~or89/coffeelab-3d-experience/</a></p>
                 </div>
 
+                <!-- 3. GitHub Codebase URL -->
                 <h2 style="margin-top: 2rem;">3. GitHub Codebase URL</h2>
                 <div class="url-card">
                     <h4>Source code repository</h4>
-                    <p><a href="#" id="github-codebase" class="placeholder">[Put your GitHub link here, like https://github.com/your-username/coffeelab-3d-app]</a></p>
+                    <p><a href="https://github.com/Omar-Rayan/coffeelab-3d-experience" id="github-codebase" target="_blank" rel="noopener">https://github.com/Omar-Rayan/coffeelab-3d-experience</a></p>
                 </div>
 
+                <!-- 4. GitHub Models URL -->
                 <h2 style="margin-top: 2rem;">4. GitHub Models URL</h2>
                 <div class="url-card">
                     <h4>3D models with Blender scripts + glTF files</h4>
-                    <p><a href="#" id="github-models" class="placeholder">[Put your models folder link, like https://github.com/your-username/coffeelab-3d-app/tree/main/models]</a></p>
-                    <p style="font-size: 0.85rem; margin-top: 0.5rem;">Includes the Blender Python scripts and .glb exports.</p>
+                    <p><a href="https://github.com/Omar-Rayan/coffeelab-3d-experience/tree/main/coffeelab-3d-experience/models" id="github-models" target="_blank" rel="noopener">https://github.com/Omar-Rayan/coffeelab-3d-experience/tree/main/coffeelab-3d-experience/models</a></p>
+                    <p style="font-size: 0.85rem; margin-top: 0.5rem;">Includes the .blend source files and .glb web exports.</p>
                 </div>
 
+                <!-- 5. Deeper Understanding Statement -->
                 <h2 style="margin-top: 2rem;">5. Deeper Understanding Statement</h2>
                 <div class="deeper">
                     <h3>What I did beyond the lab tutorials</h3>
@@ -107,6 +114,7 @@
         </div>
     </main>
 
+    <!-- Footer -->
     <footer class="footer">
         <div class="container">
             <p>&copy; 2026 CoffeeLab 3D Experience | Web 3D Applications module</p>
