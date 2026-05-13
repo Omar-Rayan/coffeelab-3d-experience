@@ -1,0 +1,187 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>About - CoffeeLab 3D Experience</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Sodo+Sans:wght@400;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="css/about.css">
+</head>
+<body>
+    <header class="header">
+        <div class="container">
+            <nav class="navbar navbar-expand-lg">
+                <a class="navbar-brand" href="index.html">
+                    <div class="logo">
+                        <span class="logo-text">CoffeeLab</span>
+                        <span class="logo-subtitle">3D Experience</span>
+                    </div>
+                </a>
+                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+                <nav class="collapse navbar-collapse" id="navbarNav">
+                    <ul class="navbar-nav ms-auto">
+                        <li class="nav-item"><a class="nav-link" href="index.html">Home</a></li>
+                        <li class="nav-item"><a class="nav-link active" href="about.html">About</a></li>
+                        <li class="nav-item"><a class="nav-link" href="submission.html">Submission</a></li>
+                    </ul>
+                </nav>
+            </nav>
+        </div>
+    </header>
+
+    <main class="main-content">
+        <div class="container">
+
+            <section class="about-hero">
+                <h1>About This Project</h1>
+                <p class="lead">How I made it, design choices, accessibility, and references.</p>
+            </section>
+
+            <section class="about-section">
+                <h2>1. How I Made the 3D Models</h2>
+                <p>I built all three models in <strong>Blender 4.x</strong> and exported them as glTF (.glb) files for the web. I named each mesh properly (like <code>Plunger</code>, <code>Knob</code>, <code>CupBody</code>, <code>BagBody</code>) so the JavaScript could target them for animations, colour swaps, and the brewing colour-LERP.</p>
+
+                <div class="row model-cards">
+                    <div class="col-md-4">
+                        <div class="model-card">
+                            <h4>French Press</h4>
+                            <p><strong>Parts:</strong> Carafe, TopRing, BottomRing, Handle, Base, Filter, Rod, Plunger, Knob, Liquid (plus 50 coffee Grounds + Crema layer)</p>
+                            <p>I made the carafe from a lathe profile and gave it glass material with transmission and IOR 1.45 so it looks realistic. The steel rings, handle, and base have low roughness and high metalness. The handle started as a Bezier curve, then I bevelled and converted it to mesh.</p>
+                            <p>The animation shows the plunger going down, the liquid turning coffee-brown via a JS colour LERP, and steam particles rising.</p>
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="model-card">
+                            <h4>Takeaway Cup</h4>
+                            <p><strong>4 parts:</strong> CupBody, Sleeve, DomeLid, Straw</p>
+                            <p>I made the cup as a tapered cylinder with a Solidify modifier so the walls have real thickness. The cardboard sleeve is a separate ring with interpolated radius. The dome lid is half a UV sphere with a torus lip. The straw is tilted and has a boolean difference for the hollow center.</p>
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="model-card">
+                            <h4>Coffee Bag</h4>
+                            <p><strong>Parts:</strong> BagBody + 256 individually-modelled beans inside + an Aroma particle group</p>
+                            <p>The bag is a stand-up pouch with a soft bulge so it looks full. The opening animation is driven by a Blender <em>shape key</em> on the BagBody mesh, where vertices on the top seal morph apart to reveal the beans. The beans were modelled with bezier curve sweeps for a real coffee-bean silhouette and placed in a deterministic grid so they actually sit inside the pouch.</p>
+                        </div>
+                    </div>
+                </div>
+
+                <p style="margin-top: 1rem;">I exported everything as <strong>glTF 2.0 binary</strong> so meshes, materials and animations all travel in one file. I kept the poly counts low (few thousand tris per model) so it loads fast even on phones.</p>
+            </section>
+
+            <section class="about-section">
+                <h2>2. Design Choices</h2>
+
+                <div class="design-choice">
+                    <h4>Why Three.js instead of X3DOM</h4>
+                    <ul>
+                        <li>Way more control over the scene, lights and materials</li>
+                        <li>Bigger community and better docs</li>
+                        <li>Modern features I could actually show off like PBR, bloom, custom shaders, post-processing</li>
+                    </ul>
+                </div>
+
+                <div class="design-choice">
+                    <h4>Web-friendly modelling</h4>
+                    <ul>
+                        <li>Kept each model to a few thousand triangles so it loads quick</li>
+                        <li>Named everything consistently so colour swap and animations were easier to code</li>
+                        <li>Used modifiers (Solidify, Boolean, Bevel) for clean topology</li>
+                    </ul>
+                </div>
+
+                <div class="design-choice">
+                    <h4>MVC architecture</h4>
+                    <ul>
+                        <li><strong>Model</strong> (<code>js/model.js</code>) fetches <code>products.json</code>, holds product data, camera presets, colours, finishes</li>
+                        <li><strong>View</strong> (<code>js/view.js</code>) handles the Three.js scene, lighting, post-processing, GLTF loading, and animations</li>
+                        <li><strong>Controller</strong> (<code>js/controller.js</code>) connects DOM events to View methods and renders the UI from Model data</li>
+                        <li>Each part is separate, so I could change one without breaking the others</li>
+                    </ul>
+                </div>
+
+                <div class="design-choice">
+                    <h4>Custom GLSL shaders</h4>
+                    <ul>
+                        <li><strong>Cinematic pass</strong> (<code>js/cinematic.js</code>) is a fragment shader with chromatic aberration, film grain, and vignette. Added to the EffectComposer after Bloom</li>
+                        <li><strong>Steam particles</strong> (<code>js/steam.js</code>) is a vertex + fragment shader driving around 220 shader-driven particles (single-draw-call <code>THREE.Points</code>) with a sine-wobble lifecycle, additively blended for soft volumetric steam</li>
+                    </ul>
+                </div>
+
+                <div class="design-choice">
+                    <h4>UI design</h4>
+                    <ul>
+                        <li>CoffeeLab green (#00704A) as the main colour, with cream and gold accents</li>
+                        <li>Sodo Sans font, clean and modern</li>
+                        <li>All three control panels (Camera, Lighting, Colour) are open by default so nothing is hidden</li>
+                        <li>Responsive Bootstrap 5 grid so it stacks properly on mobile</li>
+                    </ul>
+                </div>
+
+                <div class="design-choice">
+                    <h4>Storytelling animation</h4>
+                    <p>The Brew button doesn't just spin the model. The plunger goes down over about 2.5 seconds (baked Blender keyframes), the liquid inside turns coffee-brown via a JS colour LERP, steam particles fade in and out, and a brewing sound plays in sync (playback rate adjusted so the audio finishes exactly when the animation does). The Coffee Bag has its own opening animation driven by a shape key. I wanted the interactions to tell a little story about each product, not just rotate them.</p>
+                </div>
+
+                <div class="design-choice">
+                    <h4>Accessibility</h4>
+                    <p>I wanted the site to be usable for more than just mouse-and-keyboard desktop users:</p>
+                    <ul>
+                        <li>Text contrast checked against <strong>WCAG AA</strong> (4.5:1 body, 3:1 headings)</li>
+                        <li>Buttons use plain-text labels ("Brew Coffee", "Front", "Side") so meaning isn't icon-only</li>
+                        <li>All controls are native <code>&lt;button&gt;</code>/<code>&lt;input&gt;</code> elements, so they work with keyboard and screen readers out of the box</li>
+                        <li>Semantic HTML landmarks (<code>&lt;header&gt;</code>, <code>&lt;main&gt;</code>, <code>&lt;nav&gt;</code>, <code>&lt;footer&gt;</code>) and <code>aria-label</code>s on short controls (like colour swatches)</li>
+                        <li>Bootstrap 5 grid collapses to single column under 992px, tested down to 375px</li>
+                    </ul>
+                </div>
+            </section>
+
+            <section class="about-section originality">
+                <h2>3. Statement of Originality</h2>
+                <div class="declaration">
+                    <p>I confirm that this 3D Application including the models, code, web pages, styling, and interactions is my own work, made for the University of Sussex <em>3D Applications</em> module.</p>
+                </div>
+            </section>
+
+            <section class="about-section">
+                <h2>4. References</h2>
+
+                <h3>Libraries</h3>
+                <ol>
+                    <li>Three.js Documentation (r160). <a href="https://threejs.org/docs/" target="_blank" rel="noopener">https://threejs.org/docs/</a> [MIT]</li>
+                    <li>Three.js Examples. <a href="https://github.com/mrdoob/three.js/tree/master/examples" target="_blank" rel="noopener">https://github.com/mrdoob/three.js/tree/master/examples</a></li>
+                    <li>Bootstrap 5.3.2. <a href="https://getbootstrap.com/docs/5.3/" target="_blank" rel="noopener">https://getbootstrap.com/docs/5.3/</a> [MIT]</li>
+                    <li>Blender Python API (4.x). <a href="https://docs.blender.org/api/current/" target="_blank" rel="noopener">https://docs.blender.org/api/current/</a> [GPL]</li>
+                </ol>
+
+                <h3>Tutorials &amp; articles</h3>
+                <ol>
+                    <li>Three.js examples for OrbitControls, UnrealBloomPass, GLTFLoader. <a href="https://threejs.org/examples/" target="_blank" rel="noopener">https://threejs.org/examples/</a></li>
+                    <li>The Book of Shaders by Gonzalez Vivo &amp; Lowe. <a href="https://thebookofshaders.com/" target="_blank" rel="noopener">https://thebookofshaders.com/</a> I used this for film grain and chromatic aberration techniques</li>
+                    <li>glTF 2.0 Specification. <a href="https://registry.khronos.org/glTF/specs/2.0/glTF-2.0.html" target="_blank" rel="noopener">https://registry.khronos.org/glTF/specs/2.0/glTF-2.0.html</a></li>
+                    <li>WCAG 2.1 Guidelines. <a href="https://www.w3.org/TR/WCAG21/" target="_blank" rel="noopener">https://www.w3.org/TR/WCAG21/</a></li>
+                </ol>
+
+                <h3>Fonts &amp; media</h3>
+                <ol>
+                    <li>Google Fonts Sodo Sans. <a href="https://fonts.google.com/" target="_blank" rel="noopener">https://fonts.google.com/</a> [SIL OFL]</li>
+                    <li>Pixabay cafe sounds. <a href="https://pixabay.com/sound-effects/" target="_blank" rel="noopener">https://pixabay.com/sound-effects/</a> [Pixabay License]</li>
+                </ol>
+            </section>
+
+        </div>
+    </main>
+
+    <footer class="footer">
+        <div class="container">
+            <p>&copy; 2026 CoffeeLab 3D Experience | Web 3D Applications module</p>
+        </div>
+    </footer>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>

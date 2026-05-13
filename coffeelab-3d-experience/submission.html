@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Submission - CoffeeLab 3D Experience</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Sodo+Sans:wght@400;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="css/about.css">
+    <style>
+        .url-card {
+            background: var(--coffeelab-cream);
+            border-left: 4px solid var(--coffeelab-green);
+            padding: 1.25rem 1.5rem;
+            border-radius: 12px;
+            margin-bottom: 1rem;
+        }
+        .url-card h4 { margin: 0 0 0.5rem 0; color: var(--coffeelab-green-dark); }
+        .url-card a { color: var(--coffeelab-green); font-family: 'Courier New', monospace; word-break: break-all; }
+        .placeholder { color: var(--text-secondary); font-style: italic; }
+        .deeper {
+            background: linear-gradient(135deg, var(--coffeelab-green-dark), var(--coffeelab-green));
+            color: #ffffff !important;
+            padding: 2rem;
+            border-radius: 16px;
+            margin: 2rem 0;
+        }
+        .deeper, .deeper p, .deeper li, .deeper strong, .deeper em {
+            color: #ffffff !important;
+        }
+        .deeper code {
+            color: #ffd98a !important;
+            background: rgba(0, 0, 0, 0.25);
+            padding: 2px 6px;
+            border-radius: 4px;
+        }
+        .deeper h3 { color: var(--coffeelab-gold) !important; }
+    </style>
+</head>
+<body>
+    <header class="header">
+        <div class="container">
+            <nav class="navbar navbar-expand-lg">
+                <a class="navbar-brand" href="index.html">
+                    <div class="logo">
+                        <span class="logo-text">CoffeeLab</span>
+                        <span class="logo-subtitle">3D Experience</span>
+                    </div>
+                </a>
+                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+                <nav class="collapse navbar-collapse" id="navbarNav">
+                    <ul class="navbar-nav ms-auto">
+                        <li class="nav-item"><a class="nav-link" href="index.html">Home</a></li>
+                        <li class="nav-item"><a class="nav-link" href="about.html">About</a></li>
+                        <li class="nav-item"><a class="nav-link active" href="submission.html">Submission</a></li>
+                    </ul>
+                </nav>
+            </nav>
+        </div>
+    </header>
+
+    <main class="main-content">
+        <div class="container">
+
+            <section class="about-hero">
+                <h1>Submission</h1>
+                <p class="lead">Required links and evidence for the 3D App assignment.</p>
+            </section>
+
+            <section class="about-section">
+
+                <h2>1. How to run it</h2>
+                <p>This project runs locally with <strong>Live Server</strong> in VS Code. Just open <code>index.html</code> with Live Server (or run <code>python -m http.server</code>). Three.js loads from CDN, all assets are relative paths, and JSON data is fetched at runtime. No build steps needed.</p>
+
+                <h2 style="margin-top: 2rem;">2. ITS Web Server URL</h2>
+                <div class="url-card">
+                    <h4>Live site on University of Sussex IT Services</h4>
+                    <p><a href="#" id="its-url" class="placeholder">[Put your live URL here, like https://users.sussex.ac.uk/~yourId/coffeelab-3d-app/]</a></p>
+                </div>
+
+                <h2 style="margin-top: 2rem;">3. GitHub Codebase URL</h2>
+                <div class="url-card">
+                    <h4>Source code repository</h4>
+                    <p><a href="#" id="github-codebase" class="placeholder">[Put your GitHub link here, like https://github.com/your-username/coffeelab-3d-app]</a></p>
+                </div>
+
+                <h2 style="margin-top: 2rem;">4. GitHub Models URL</h2>
+                <div class="url-card">
+                    <h4>3D models with Blender scripts + glTF files</h4>
+                    <p><a href="#" id="github-models" class="placeholder">[Put your models folder link, like https://github.com/your-username/coffeelab-3d-app/tree/main/models]</a></p>
+                    <p style="font-size: 0.85rem; margin-top: 0.5rem;">Includes the Blender Python scripts and .glb exports.</p>
+                </div>
+
+                <h2 style="margin-top: 2rem;">5. Deeper Understanding Statement</h2>
+                <div class="deeper">
+                    <h3>What I did beyond the lab tutorials</h3>
+                    <p><strong>Custom GLSL shaders.</strong> I wrote two original shaders that go beyond what we covered in labs. <code>js/cinematic.js</code> is a fragment shader for chromatic aberration, film grain, and vignette. It's added to the EffectComposer chain after Bloom and before FXAA. <code>js/steam.js</code> is a vertex+fragment particle shader driving around 220 shader-driven steam particles (single-draw-call <code>THREE.Points</code>) with sine-wobble drift and additive blending.</p>
+                    <p><strong>MVC architecture.</strong> Instead of one big file like in the labs, I split everything into Model-View-Controller (<code>js/model.js</code>, <code>js/view.js</code>, <code>js/controller.js</code>). The Model fetches data from <code>products.json</code> using AJAX, so the data layer is cleanly separated from the rendering and UI code.</p>
+                    <p><strong>Storytelling animation.</strong> The Brew button doesn't just rotate the model. It runs a multi-step animation where the plunger descends over 2.5 seconds via baked Blender keyframes, the liquid mesh tints coffee-brown via a JS colour LERP, steam particles fade in and out, and a brewing sound plays in sync (with the audio playback rate adjusted to match the animation duration). This makes the interaction feel like part of the product's story rather than just a rotating object.</p>
+                    <p><strong>Bootstrap 5 + responsive design + post-processing chain</strong> show I went beyond basic lab work with proper frontend framework usage and advanced rendering.</p>
+                </div>
+
+            </section>
+        </div>
+    </main>
+
+    <footer class="footer">
+        <div class="container">
+            <p>&copy; 2026 CoffeeLab 3D Experience | Web 3D Applications module</p>
+        </div>
+    </footer>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>
